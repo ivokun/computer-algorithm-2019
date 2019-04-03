@@ -17,5 +17,5 @@ def compute_late(days = DAYS, maxLate = MAX_LATE, lateProb = LATE_PROB, saved = 
     saved[ID] = result
     return result
 
-print(compute_late())
+print("Getting scolded {}%".format(compute_late() * 100))
   
