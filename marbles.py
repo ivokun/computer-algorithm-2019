@@ -27,7 +27,7 @@ def fibo_matrix(n):
   power(F, n - 1)
   return F[0][0]
 
-print(fibo_matrix(marblesCount))
+print(fibo_matrix(8) % 65535)
 
 
 # def pickMarbles(marbles, maxPick):
