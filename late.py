@@ -1,5 +1,5 @@
 MAX_LATE = 3
-LATE_PROB = 0.5
+LATE_PROB = 0.66666
 DAYS = 20
 
 def compute_late(days = DAYS, maxLate = MAX_LATE, lateProb = LATE_PROB, saved = None):
