@@ -1,34 +1,42 @@
-# import numpy as np
+import numpy as np
 import itertools
+from operator import mul
+import time
 marblesCount = 2000000000
 max = 2
+
+###
+# dot product matrix
+# https://stackoverflow.com/a/35244370
+###
 
 def dot1d(a,b):
   return sum(x*y for x,y in zip(a,b))
 
 def dot2d(a,b):
-  product = [dot1d(x,y) for x,y in itertools.product(a,b)]
+  product = [dot1d(x,y) % 65535 for x,y in itertools.product(a,b)]
   return [product[i::len(a)] for i in range(len(a))]
+
+###
+# dot product matrix 2
+# https://stackoverflow.com/a/45159105
+# https://codereview.stackexchange.com/questions/185916/multiplication-of-any-two-matrices-using-lists-and-for-in-loop
+###
+
+def dotdot(a,b):
+  return [[sum(itertools.starmap(mul, zip(row, col))) % 65535 for col in zip(*b)] for row in a]
+  # return [[sum(map(mul, row, col)) % 65535 for col in zip(*b)] for row in a]
 
 def power(F, n):
   res = F
   while n > 0:
     if n & 1:
-      # res = np.dot(F, res)
-      # res = multiply_matrix(F, res)
-      res = dot2d(F, res)
-    # F = np.dot(F, F)
-    # F = multiply_matrix(F, F)
-    F = dot2d(F, F)
+      res = dotdot(F, res)
+    F = dotdot(F, F)
     n = n >> 1
   return res
 
-
-def fibo_mx(n, step=2):
-  if step < 2:
-    return
-  # x = np.eye(step,step, k=-1, dtype=object)
-  # x[0] = np.ones(step)
+def make_matrix(step):
   x = []
   for row in range(step):
     inner_x = []
@@ -40,7 +48,13 @@ def fibo_mx(n, step=2):
       else:
         inner_x.append(0)
     x.append(inner_x)
-  b = power(x,n-1)
-  return b [0][1] if step == 2 else b[0][0]
+  return x
 
-print(fibo_mx(2000))
+def fibo_mx(n, step=2):
+  if step < 2:
+    return
+  x = make_matrix(step)
+  b = power(x,n-1)
+  return b[0][1] if step == 2 else b[0][0]
+
+print(fibo_mx(4,3))
