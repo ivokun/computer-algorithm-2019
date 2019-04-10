@@ -1,10 +1,6 @@
 import numpy as np
 import itertools
 from operator import mul
-import time
-marblesCount = 2000000000
-max = 2
-
 ###
 # dot product matrix
 # https://stackoverflow.com/a/35244370
@@ -28,6 +24,7 @@ def dotdot(a,b):
   # return [[sum(map(mul, row, col)) % 65535 for col in zip(*b)] for row in a]
 
 def power(F, n):
+  n = 0 if n < 0 else n
   res = F
   while n > 0:
     if n & 1:
@@ -51,10 +48,14 @@ def make_matrix(step):
   return x
 
 def fibo_mx(n, step=2):
-  if step < 2:
-    return
   x = make_matrix(step)
   b = power(x,n-1)
   return b[0][1] if step == 2 else b[0][0]
 
-print(fibo_mx(4,3))
+print("Input")
+marblesCount = input("")
+maxPick = input("")
+marblesCount = int(marblesCount)
+maxPick = 2 if maxPick == '' else int(maxPick)
+print("Output")
+print(fibo_mx(marblesCount,maxPick))
